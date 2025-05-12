@@ -1,6 +1,6 @@
 // controllers/booksController.js
 const { provider } = require("@prisma/client");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const PrismaClient = require("@prisma/client").PrismaClient;
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
@@ -12,8 +12,8 @@ exports.login = async (req, res, next) => {
     return res.status(401).json({ error: "Invalid credentials" });
   }
 const redirectUrl = req.user.isSetupComplete
-  ? "http://localhost:3000/dashboard"
-  : "http://localhost:3000/setup";
+  ? `${process.env.FRONTEND_URL}/dashboard`
+  : `${process.env.FRONTEND_URL}/setup`;
  res.status(200).json({
    message: "login successful",
    user: {
@@ -70,11 +70,13 @@ exports.githubCallback = async (req, res, next) => {
   passport.authenticate("github", (err, user, info) => {
     if (err) {
       const errorMessage = encodeURIComponent(err.message);
-      return res.redirect(`http://localhost:3000/signup?error=${errorMessage}`);
+      return res.redirect(
+        `${process.env.FRONTEND_URL}/signup?error=${errorMessage}`
+      );
     }
     if (!user) {
       return res.redirect(
-        "http://localhost:3000/signup?error=Authentication failed"
+        `${process.env.FRONTEND_URL}/signup?error=Authentication failed`
       );
     }
 
@@ -82,13 +84,13 @@ exports.githubCallback = async (req, res, next) => {
       if (loginErr) {
         const errorMessage = encodeURIComponent(loginErr.message);
         return res.redirect(
-          `http://localhost:3000/signup?error=${errorMessage}`
+          `${process.env.FRONTEND_URL}/signup?error=${errorMessage}`
         );
       }
 
 const redirectUrl = user.isSetupComplete
-  ? "http://localhost:3000/dashboard"
-  : "http://localhost:3000/setup";
+  ? `${process.env.FRONTEND_URL}/dashboard`
+  : `${process.env.FRONTEND_URL}/setup`;
 return res.redirect(redirectUrl);
     });
   })(req, res, next);
@@ -97,11 +99,13 @@ exports.googleCallback = async (req, res, next) => {
   passport.authenticate("google", (err, user, info) => {
     if (err) {
       const errorMessage = encodeURIComponent(err.message);
-      return res.redirect(`http://localhost:3000/signup?error=${errorMessage}`);
+      return res.redirect(
+        `${process.env.FRONTEND_URL}}/signup?error=${errorMessage}`
+      );
     }
     if (!user) {
       return res.redirect(
-        "http://localhost:3000/signup?error=Authentication failed"
+        `${process.env.FRONTEND_URL}/signup?error=Authentication failed`
       );
     }
 
@@ -109,13 +113,13 @@ exports.googleCallback = async (req, res, next) => {
       if (loginErr) {
         const errorMessage = encodeURIComponent(loginErr.message);
         return res.redirect(
-          `http://localhost:3000/signup?error=${errorMessage}`
+          `${process.env.FRONTEND_URL}/signup?error=${errorMessage}`
         );
       }
 
       const redirectUrl = user.isSetupComplete
-        ? "http://localhost:3000/dashboard"
-        : "http://localhost:3000/setup";
+        ? `${process.env.FRONTEND_URL}/dashboard`
+        : `${process.env.FRONTEND_URL}/setup`;
       return res.redirect(redirectUrl);
     });
   })(req, res, next);

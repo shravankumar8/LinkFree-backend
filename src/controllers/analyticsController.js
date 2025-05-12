@@ -1,6 +1,6 @@
 // controllers/booksController.js
 const { provider } = require("@prisma/client");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const PrismaClient = require("@prisma/client").PrismaClient;
 const jwt = require("jsonwebtoken");
 const passport = require("passport");

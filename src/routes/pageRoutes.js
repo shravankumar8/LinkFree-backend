@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 // routes/booksRoutes.js
 // const profileController = require("../controllers/profileController");
 const router = express.Router();
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const pageController = require("../controllers/pageController");
 // const isAuthenticated = require("../middlewares/auth");
