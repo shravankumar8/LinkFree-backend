@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Page" ADD COLUMN     "bio" TEXT,
+ALTER COLUMN "slug" DROP DEFAULT;

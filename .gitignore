@@ -1,0 +1,45 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*.local
+.env.local
+.env
+.env.*
+*.log
+# Logs
+logs
+*.log
+log.txt
+
+# Dependency directories
+node_modules/
+
+# OS-generated files
+.DS_Store
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Optional: Prisma specific
+prisma/dev.db
+prisma/dev.db-journal
+
+# Docker
+*.pid
+*.seed
+docker-compose.override.yml
+
+# Misc
+*.swp
+*.swo
+
+# Production build
+dist/
+build/
