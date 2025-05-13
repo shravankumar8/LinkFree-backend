@@ -26,7 +26,6 @@ jobs:
           tags: shravankumar8/linkfree-backend:latest
 
       - name: Deploy to AWS EC2
-        if: always() && !success()
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
