@@ -23,13 +23,15 @@ jobs:
         with:
           context: .
           push: true
-          tags: yourusername/my-backend:latest
+          tags: shravankumar8/linkfree-backend:latest
 
       - name: Deploy to AWS EC2
+        if: always() && !success()
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: DATABASE_URL,PORT,JWT_SECRET,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,OAUTH_GITHUB_CLIENT_ID,GITHUB_CLIENT_SECRET,SESSION_SECRET,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,AWS_BUCKET_NAME,FRONTEND_URL
           script: |
-            /home/ec2-user/deploy.sh
+            /home/ubuntu/deploy.sh

@@ -7,7 +7,6 @@ RUN npx prisma generate
 FROM node:lts-alpine
 WORKDIR /app
 COPY --from=build /app .
-ENV NODE_ENV=production
+ENV NODE_ENV=local
 EXPOSE 3001
-
 CMD ["npm", "start"]
