@@ -32,6 +32,10 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: DATABASE_URL,PORT,JWT_SECRET,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,OAUTH_GITHUB_CLIENT_ID,GITHUB_CLIENT_SECRET,SESSION_SECRET,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,AWS_BUCKET_NAME,FRONTEND_URL
+          envs: DATABASE_URL,PORT,JWT_SECRET,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,GITHUB_CLIENT_ID,GITHUB_CLIENT_SECRET,SESSION_SECRET,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,AWS_BUCKET_NAME,FRONTEND_URL
           script: |
+            echo "Current directory: $(pwd)"
+            echo "Listing files:"
+            ls -la
+            echo "Executing deploy.sh"
             /home/ubuntu/deploy.sh
