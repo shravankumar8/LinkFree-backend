@@ -8,33 +8,44 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:  # Map GitHub Secrets to environment variables at the job level
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PORT: ${{ secrets.PORT }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
+      GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Updated to v3 for better stability
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2  # Updated to v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3  # Updated to v3
         with:
           context: .
           push: true
           tags: shravankumar8/linkfree-backend:latest
 
+
       - name: Deploy to AWS EC2
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.10  # Pinned to a stable version instead of @master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: DATABASE_URL,PORT,JWT_SECRET,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,GITHUB_CLIENT_ID,GITHUB_CLIENT_SECRET,SESSION_SECRET,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,AWS_BUCKET_NAME,FRONTEND_URL
           script: |
-            echo "Current directory: $(pwd)"
-            echo "Listing files:"
-            ls -la
-            echo "Executing deploy.sh"
             /home/ubuntu/deploy.sh
