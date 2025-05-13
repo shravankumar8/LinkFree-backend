@@ -48,7 +48,7 @@ exports.setup = async (req, res, next) => {
 
 exports.overview = async (req, res, next) => {
   const userId = req.user.id;
-  console.log("userId", userId);
+
 
   try {
    const analyticsRecord = await prisma.analytics.findUnique({
@@ -61,7 +61,7 @@ if (!analyticsRecord) {
     message: "Analytics not found for this user",
   });
 }
-console.log(analyticsRecord)
+
 res.status(200).json([
   { title: "Total Profile Views", value: analyticsRecord.profileViews ?? 0 },
   { title: "Total Link Clicks", value: analyticsRecord.linkClicks ?? 0 },

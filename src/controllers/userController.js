@@ -30,7 +30,7 @@ const redirectUrl = req.user.isSetupComplete
 // List all books
 exports.register = async (req, res, next) => {
   const { name, email, password } = req.body;
-  console.log({ name: name, email: email, password: password });
+
   const hashedPassword = bcrypt.hashSync(password, 10);
   try {
     const user = await prisma.user.create({

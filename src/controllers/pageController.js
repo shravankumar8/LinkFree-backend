@@ -29,7 +29,7 @@ exports.getAllPages = async (req, res, next) => {
 exports.changeVisibility = async (req, res) => {
   const { id, visibility } = req.body;
   const userId = req.user?.id;
-  console.log("Visibility change request:", req.body);
+
 
   try {
     if (!userId) {

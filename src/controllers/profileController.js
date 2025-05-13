@@ -25,7 +25,7 @@ exports.setup = async (req, res, next) => {
     if (existingUser && existingUser.id !== userId) {
       return res.status(400).json({ error: "Username already taken" });
     }
-    console.log(req.body);
+
 
     const updatedUser = await prisma.user.update({
       where: { id: userId },
@@ -89,7 +89,7 @@ const hasChanged = (newValue, oldValue) => {
 exports.updateProfile = async (req, res, next) => {
   const { displayName, bio, profilePic } = req.body;
   const userId = req.user?.id;
-  console.log(userId);
+
   try {
     if (!userId) {
       return res.status(401).json({
