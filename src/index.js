@@ -56,7 +56,9 @@ passport.deserializeUser(async (id, done) => {
     done(error);
   }
 });
-
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+})
 app.use("/api/user", usersRoutes);
 // app.use("/api/edit-page", pageRoutes);
 app.use("/api/profile", profileRoutes);
