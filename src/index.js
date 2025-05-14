@@ -19,7 +19,7 @@ const pgSession = require("connect-pg-simple")(session);
 
 const cors = require("cors");
 const corsOptions = {
-  origin: "*",
+  origin: process.env.FRONTEND_URL || "http://localhost:3000", 
   credentials: true,
 };
 
