@@ -88,7 +88,9 @@ passport.use(
     {
       clientID: process.env.OAUTH_GITHUB_CLIENT_ID,
       clientSecret: process.env.OAUTH_GITHUB_CLIENT_SECRET,
-      callbackURL: "/api/user/auth/github/callback",
+      callbackURL:
+        process.env.GITHUB_CALLBACK_URL ||
+        "https://backend.linkfree.tech/api/user/auth/github/callback",
       scope: ["user:email"],
     },
     async (token, refreshToken, profile, done) => {
@@ -255,8 +257,34 @@ router.post("/login", validateLoginInput, (req, res, next) => {
 
 router.post("/register", userController.register);
 router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/login");
+  console.log("Logging out user"); // For debugging
+
+  if (!req.user) {
+    // If no user is logged in, return a response
+    return res.status(400).json({ error: "No user to log out" });
+  }
+
+  // Use the asynchronous req.logout() with a callback
+  req.logout((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).json({ error: "Logout failed" });
+    }
+
+    // Destroy the session
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Session destroy error:", err);
+        return res.status(500).json({ error: "Session destroy failed" });
+      }
+
+      // Clear the session cookie (adjust the cookie name if different)
+      res.clearCookie("connect.sid"); // Default cookie name for express-session
+
+      // Return a JSON response
+      res.status(200).json({ message: "Logged out successfully" });
+    });
+  });
 });
 router.get(
   "/auth/google",

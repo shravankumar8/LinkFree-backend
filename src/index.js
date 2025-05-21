@@ -21,7 +21,8 @@ const cors = require("cors");
 const allowedOrigins = [
   "https://linkfree.tech",
   "https://www.linkfree.tech",
-  "https://link-free-frontend.vercel.app", // If using Vercel
+  "https://link-free-frontend.vercel.app",
+  "http://localhost:3000", // If using Vercel
 ];
 
 app.use(
